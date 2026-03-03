@@ -30,10 +30,10 @@ app = create_app()
 with app.app_context():
     db.create_all()
 
-    if not User.query.filter_by(email="admin@test.com").first():
+    if not User.query.filter_by(email="admin@gmail.com").first():
         admin = User(
             username="Admin",
-            email="admin@test.com",
+            email="admin@gmail.com",
             password_hash=generate_password_hash("123456"),
             role="admin",
         )
