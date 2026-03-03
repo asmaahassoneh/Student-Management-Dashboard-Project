@@ -4,6 +4,8 @@ from config import Config
 from extensions import db, migrate
 from routes.auth_routes import auth_bp
 from routes.students_routes import students_bp
+from werkzeug.security import generate_password_hash
+from models import User
 
 def create_app():
     app = Flask(__name__)
@@ -23,6 +25,21 @@ def create_app():
     return app
 
 app = create_app()
+
+
+with app.app_context():
+    db.create_all()
+
+    if not User.query.filter_by(email="admin@test.com").first():
+        admin = User(
+            username="Admin",
+            email="admin@test.com",
+            password_hash=generate_password_hash("123456"),
+            role="admin",
+        )
+        db.session.add(admin)
+        db.session.commit()
+        print("✅ Admin auto-created")    
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
