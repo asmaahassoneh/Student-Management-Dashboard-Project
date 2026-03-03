@@ -41,8 +41,9 @@ yarn-debug.log*
 yarn-error.log*
 
 seed_admin.py
-venv/
+
 venv
+venv/
 
 __pycache__
 __pycache__/
