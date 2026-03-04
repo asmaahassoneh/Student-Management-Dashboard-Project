@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { HashRouter  } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { StudentProvider } from "./context/StudentProvider";
 import App from "./App";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <HashRouter>
+  <BrowserRouter>
     <ErrorBoundary>
       <AuthProvider>
         <StudentProvider>
@@ -18,5 +18,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </StudentProvider>
       </AuthProvider>
     </ErrorBoundary>
-  </HashRouter>,
+  </BrowserRouter>,
 );
