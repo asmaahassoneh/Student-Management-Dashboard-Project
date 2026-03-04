@@ -5,14 +5,14 @@ from services.auth_service import require_admin
 
 students_bp = Blueprint("students", __name__, url_prefix="/students")
 
-@students_bp.get("")
+@students_bp.get("/")
 def get_students():
     if not require_admin():
         return jsonify({"error": "Forbidden"}), 403
     rows = Student.query.all()
     return jsonify([{"id": s.id, "name": s.name, "email": s.email, "major": s.major, "gpa": s.gpa} for s in rows])
 
-@students_bp.post("")
+@students_bp.post("/")
 def create_student():
     if not require_admin():
         return jsonify({"error": "Forbidden"}), 403

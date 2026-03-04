@@ -23,7 +23,8 @@ def require_auth():
     try:
         payload = decode_jwt(token)
         return User.query.get(int(payload["sub"]))
-    except Exception:
+    except Exception as e:
+        current_app.logger.exception(e)
         return None
 
 def require_admin():

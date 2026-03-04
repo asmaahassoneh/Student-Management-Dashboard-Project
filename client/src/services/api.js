@@ -1,5 +1,5 @@
 import axios from "axios";
- 
+
 const LS_TOKEN = "student_portal_token_v1";
 const LS_CURRENT_USER = "student_portal_user_v2";
 

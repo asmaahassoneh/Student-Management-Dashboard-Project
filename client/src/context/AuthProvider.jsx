@@ -35,7 +35,7 @@ export function AuthProvider({ children }) {
     }
 
     setToken(nextToken);
-    localStorage.setItem(LS_TOKEN, nextToken);
+    setTokenState(nextToken);
 
     setUser(nextUser);
     localStorage.setItem(LS_CURRENT_USER, JSON.stringify(nextUser));
