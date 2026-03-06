@@ -37,7 +37,15 @@ function StudentForm() {
       toast.success("Student Registered Successfully!");
       reset();
     } catch (e) {
-      toast.error("Failed to add student: " + (e?.message ?? String(e)));
+      const status = e?.response?.status;
+      const msg =
+        e?.response?.data?.error || e?.message || "Failed to add student";
+
+      if (status === 409) {
+        toast.warning(msg);
+      } else {
+        toast.error(msg);
+      }
     }
   };
 
@@ -85,7 +93,12 @@ function StudentForm() {
         required
       />
 
-      <button type="submit" disabled={isSubmitting}>
+      <button
+        className="authBtn authBtnEnter"
+        type="submit"
+        disabled={isSubmitting}
+      >
+        <span className="btnShine" />
         {isSubmitting ? "Registering..." : "Register Student"}
       </button>
     </form>

@@ -31,14 +31,8 @@ export function StudentProvider({ children }) {
   }, [fetchStudents, isAuthenticated, user?.role]);
 
   const addStudent = useCallback(async (student) => {
-    try {
-      setError(null);
-      const res = await studentsApi.create({ ...student });
-      setStudents((prev) => [...prev, res.data]);
-    } catch (e) {
-      setError("Failed to add student: " + (e?.message ?? String(e)));
-      throw e;
-    }
+    const res = await studentsApi.create({ ...student });
+    setStudents((prev) => [...prev, res.data]);
   }, []);
 
   const deleteStudent = useCallback(async (id) => {

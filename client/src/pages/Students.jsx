@@ -15,8 +15,10 @@ function Students() {
 
   const [search, setSearch] = useState("");
   const [filterMajor, setFilterMajor] = useState("");
-
   const [deleteId, setDeleteId] = useState(null);
+
+  const [page, setPage] = useState(1);
+  const pageSize = 6;
 
   const handleView = useCallback(
     (id) => navigate(`/students/${id}`),
@@ -46,6 +48,14 @@ function Students() {
       return matchesSearch && matchesMajor;
     });
   }, [students, search, filterMajor]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredStudents.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const paginatedStudents = filteredStudents.slice(startIndex, endIndex);
 
   if (loading) {
     return (
@@ -78,21 +88,64 @@ function Students() {
         <input
           placeholder="Search by name..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
         />
 
         <input
           placeholder="Filter by major..."
           value={filterMajor}
-          onChange={(e) => setFilterMajor(e.target.value)}
+          onChange={(e) => {
+            setFilterMajor(e.target.value);
+            setPage(1);
+          }}
         />
       </div>
 
       <StudentCardGrid
-        students={filteredStudents}
+        students={paginatedStudents}
         onView={handleView}
         onDelete={handleAskDelete}
       />
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "12px",
+          marginTop: "20px",
+        }}
+      >
+        <button
+          className="authBtn authBtnEnter"
+          onClick={() => setPage((p) => p - 1)}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+
+        <span
+          style={{
+            color: "white",
+            fontWeight: 600,
+            minWidth: "110px",
+            textAlign: "center",
+          }}
+        >
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <button
+          className="authBtn authBtnEnter"
+          onClick={() => setPage((p) => p + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
 
       <Modal
         open={!!deleteId}

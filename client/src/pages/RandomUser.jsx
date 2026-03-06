@@ -45,9 +45,10 @@ function RandomUser() {
       )}
 
       <button
+        className="authBtn authBtnEnter"
         onClick={pickRandom}
         disabled={loading || !data.length}
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 20, height: "60px", padding: "0 24px" }}
       >
         {randomStudent ? "Get Another Random Student" : "Pick a Random Student"}
       </button>

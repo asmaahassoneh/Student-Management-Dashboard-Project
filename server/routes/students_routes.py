@@ -18,15 +18,39 @@ def create_student():
         return jsonify({"error": "Forbidden"}), 403
 
     data = request.get_json(force=True)
+
+    name = (data.get("name") or "").strip()
+    email = (data.get("email") or "").strip().lower()
+    major = (data.get("major") or "").strip()
+
+    if not name or not email or not major:
+        return jsonify({"error": "All fields are required"}), 400
+
+    if Student.query.filter_by(email=email).first():
+        return jsonify({"error": "Student email already exists"}), 409
+
+    try:
+        gpa = float(data.get("gpa"))
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid GPA"}), 400
+
     s = Student(
-        name=(data.get("name") or "").strip(),
-        email=(data.get("email") or "").strip().lower(),
-        major=(data.get("major") or "").strip(),
-        gpa=float(data.get("gpa")),
+        name=name,
+        email=email,
+        major=major,
+        gpa=gpa,
     )
+
     db.session.add(s)
     db.session.commit()
-    return jsonify({"id": s.id, "name": s.name, "email": s.email, "major": s.major, "gpa": s.gpa}), 201
+
+    return jsonify({
+        "id": s.id,
+        "name": s.name,
+        "email": s.email,
+        "major": s.major,
+        "gpa": s.gpa
+    }), 201
 
 @students_bp.put("/<int:sid>")
 def update_student(sid):
