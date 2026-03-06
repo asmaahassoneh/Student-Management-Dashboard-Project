@@ -145,13 +145,18 @@ function StudentDetails() {
 
             <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
               <button
-                className="back-btn"
+                className="back-btn authBtn authBtnEnter"
                 onClick={() => navigate("/students")}
+                style={{ marginTop: 20, height: "60px", padding: "0 24px" }}
               >
                 ← Back to Students
               </button>
 
-              <button className="back-btn" onClick={() => setIsEditing(true)}>
+              <button
+                className="back-btn authBtn authBtnEnter"
+                onClick={() => setIsEditing(true)}
+                style={{ marginTop: 20, height: "60px", padding: "0 24px" }}
+              >
                 ✏️ Edit
               </button>
             </div>
